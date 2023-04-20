@@ -1,0 +1,111 @@
+.header-container,
+.logo_buttons-wrapper,
+.logo,
+.header_buttons,
+.header_group {
+  display: flex;
+  align-items: center;
+}
+
+.header-container {
+  width: 96%;
+  margin: auto;
+  padding: 20px 0;
+  justify-content: space-between;
+}
+
+.header_group {
+  width: 510px;
+  justify-content: space-between;
+}
+
+button {
+  background: #f0f1f2;
+  color: #222222;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-weight: 700;
+  font-size: 16px;
+  transition: 0.4s;
+}
+
+input {
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 10px 15px;
+  width: 300px;
+}
+
+.moon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 15px;
+}
+
+.logo span {
+  margin-left: 24px;
+}
+
+.header_buttons {
+  width: 410px;
+  justify-content: space-between;
+  margin-left: 24px;
+}
+
+.header_buttons button:hover {
+  background: #e9f9e4;
+  color: #52bc20;
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-container input[type="text"] {
+  padding-left: 35px;
+}
+
+.icon-container {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  margin-top: 3px;
+}
+
+@media screen and (max-width: 1140px) {
+  .header-container {
+    flex-direction: column;
+  }
+  .header_group {
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .header-container {
+    flex-direction: row;
+  }
+  .header_buttons {
+    display: none;
+  }
+  input {
+    width: 40px;
+    padding: 10px 10px;
+  }
+  .logo span {
+    margin-left: 8px;
+  }
+  .header_group {
+    margin: 0;
+    width: 165px;
+  }
+  .wallet {
+    padding: 7px 15px;
+  }
+  .icon-container {
+    margin-left: 3px;
+  }
+}

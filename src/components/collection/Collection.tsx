@@ -1,22 +1,29 @@
-import React, { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import { fetchData } from "../../app/reducers/collectionReducer";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { Key, useEffect } from "react";
 import CollectionItem from "./CollectionItem";
-import "./collection.css";
 import MenuColumnIcon from "../../icons/MenuColumnIcon";
 import MenuRowIcon from "../../icons/MenuRowIcon";
+import axios from "axios";
+import "./collection.css";
 
-const Collection: React.FC = () => {
+interface IProps {
+  collectionData: any;
+}
+
+const Collection: React.FC<IProps> = ({ collectionData }) => {
   const collection = useAppSelector((state) => state.collectionReducer.data);
   const loading = useAppSelector((state) => state.collectionReducer.loading);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchData());
-  }, [dispatch]);
+    if (!collectionData) {
+      dispatch(fetchData());
+    }
+  }, [collectionData, dispatch]);
 
-  if (loading) {
+  if (loading && !collectionData) {
     return <div>Loading...</div>;
   }
 
@@ -48,23 +55,39 @@ const Collection: React.FC = () => {
         </ul>
       </div>
       <div className="collection">
-        {collection.map((item) => {
-          return (
-            <CollectionItem
-              key={item.collection_id}
-              name={item.project.display_name}
-              img={item.project.img_url}
-              price={item.floor_price}
-              buyNow={"1200 SOL"}
-              vol={"+100%"}
-              sales={"50.000"}
-              interest={"10%"}
-            />
-          );
-        })}
+        {(collectionData || collection).map(
+          (item: {
+            collection_id: Key | null | undefined;
+            project: { display_name: string; img_url: string };
+            floor_price: number;
+          }) => {
+            return (
+              <CollectionItem
+                key={item.collection_id}
+                name={item.project.display_name}
+                img={item.project.img_url}
+                price={item.floor_price}
+                buyNow={"1200 SOL"}
+                vol={"+100%"}
+                sales={"50.000"}
+                interest={"10%"}
+              />
+            );
+          }
+        )}
       </div>
     </div>
   );
 };
 
 export default Collection;
+
+export async function getStaticProps() {
+  const collectionData = await axios.get("http://localhost:3000/");
+  const data = await collectionData.data;
+  return {
+    props: {
+      data,
+    },
+  };
+}
